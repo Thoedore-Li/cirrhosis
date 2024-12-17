@@ -174,10 +174,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var HospitalHeader = function HospitalHeader() {
   __webpack_require__.e(/*! require.ensure | components/hospital-header/hospital-header */ "components/hospital-header/hospital-header").then((function () {
     return resolve(__webpack_require__(/*! @/components/hospital-header/hospital-header.vue */ 130));
@@ -201,7 +205,14 @@ var _default = {
         weight: ''
       },
       currentUrine: '',
-      todayUrineList: []
+      todayUrineList: [],
+      showModal: false,
+      today: new Date().toISOString().split('T')[0],
+      historyData: {
+        date: '',
+        weight: '',
+        urine: ''
+      }
     };
   },
   onLoad: function onLoad() {
@@ -331,6 +342,68 @@ var _default = {
         return sum + item.value;
       }, 0);
       this.dailyData.urine = String(total);
+    },
+    showHistoryModal: function showHistoryModal() {
+      this.showModal = true;
+      this.historyData = {
+        date: '',
+        weight: '',
+        urine: ''
+      };
+    },
+    closeModal: function closeModal() {
+      this.showModal = false;
+    },
+    onDateChange: function onDateChange(e) {
+      this.historyData.date = e.detail.value;
+    },
+    saveHistoryData: function saveHistoryData() {
+      var _this2 = this;
+      if (!this.historyData.date || !this.historyData.weight || !this.historyData.urine) {
+        uni.showToast({
+          title: '请填写完整数据',
+          icon: 'none'
+        });
+        return;
+      }
+
+      // 获取历史数据
+      var historyData = uni.getStorageSync('waterData') || [];
+
+      // 检查是否已存在该日期的数据
+      var existingIndex = historyData.findIndex(function (item) {
+        return item.date === _this2.historyData.date;
+      });
+      if (existingIndex !== -1) {
+        uni.showModal({
+          title: '提示',
+          content: '该日期已存在数据，是否覆盖？',
+          success: function success(res) {
+            if (res.confirm) {
+              historyData[existingIndex] = _objectSpread({}, _this2.historyData);
+              _this2.saveAndClose(historyData);
+            }
+          }
+        });
+      } else {
+        historyData.push(_objectSpread({}, this.historyData));
+        this.saveAndClose(historyData);
+      }
+    },
+    saveAndClose: function saveAndClose(historyData) {
+      // 按日期排序
+      historyData.sort(function (a, b) {
+        return new Date(a.date) - new Date(b.date);
+      });
+
+      // 只保留最近7天
+      historyData = historyData.slice(-7);
+      uni.setStorageSync('waterData', historyData);
+      uni.showToast({
+        title: '保存成功',
+        icon: 'success'
+      });
+      this.closeModal();
     }
   }
 };

@@ -3,6 +3,12 @@
 		<hospital-header></hospital-header>
 		
 		<view class="main-content">
+			<!-- 历史数据入口 -->
+			<view class="history-entry" @tap="showHistoryModal">
+				<text class="history-text">录入历史数据</text>
+				<text class="history-icon">+</text>
+			</view>
+			
 			<!-- 体重记录卡片 -->
 			<view class="card">
 				<view class="card-header">
@@ -62,6 +68,58 @@
 			</view>
 			<contact-info></contact-info>
 		</view>
+
+		<!-- 历史数据录入弹窗 -->
+		<view class="modal" v-if="showModal" @tap="closeModal">
+			<view class="modal-content" @tap.stop>
+				<view class="modal-header">
+					<text class="modal-title">录入历史数据</text>
+					<text class="modal-close" @tap="closeModal">×</text>
+				</view>
+				
+				<view class="modal-body">
+					<view class="form-item">
+						<text class="label">选择日期</text>
+						<picker 
+							mode="date" 
+							:value="historyData.date" 
+							:end="today"
+							@change="onDateChange"
+							class="date-picker"
+						>
+							<view class="picker-value">
+								{{historyData.date || '请选择日期'}}
+							</view>
+						</picker>
+					</view>
+					
+					<view class="form-item">
+						<text class="label">体重 (kg)</text>
+						<input 
+							type="digit"
+							v-model="historyData.weight"
+							placeholder="请输入体重"
+							class="input-box"
+						/>
+					</view>
+					
+					<view class="form-item">
+						<text class="label">尿量 (ml)</text>
+						<input 
+							type="number"
+							v-model="historyData.urine"
+							placeholder="请输入尿量"
+							class="input-box"
+						/>
+					</view>
+				</view>
+				
+				<view class="modal-footer">
+					<button class="cancel-btn" @tap="closeModal">取消</button>
+					<button class="confirm-btn" @tap="saveHistoryData">保存</button>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -82,7 +140,14 @@
 					weight: ''
 				},
 				currentUrine: '',
-				todayUrineList: []
+				todayUrineList: [],
+				showModal: false,
+				today: new Date().toISOString().split('T')[0],
+				historyData: {
+					date: '',
+					weight: '',
+					urine: ''
+				}
 			}
 		},
 		onLoad() {
@@ -222,6 +287,72 @@
 			updateTotalUrine() {
 				const total = this.todayUrineList.reduce((sum, item) => sum + item.value, 0)
 				this.dailyData.urine = String(total)
+			},
+			
+			showHistoryModal() {
+				this.showModal = true
+				this.historyData = {
+					date: '',
+					weight: '',
+					urine: ''
+				}
+			},
+			
+			closeModal() {
+				this.showModal = false
+			},
+			
+			onDateChange(e) {
+				this.historyData.date = e.detail.value
+			},
+			
+			saveHistoryData() {
+				if (!this.historyData.date || !this.historyData.weight || !this.historyData.urine) {
+					uni.showToast({
+						title: '请填写完整数据',
+						icon: 'none'
+					})
+					return
+				}
+				
+				// 获取历史数据
+				let historyData = uni.getStorageSync('waterData') || []
+				
+				// 检查是否已存在该日期的数据
+				const existingIndex = historyData.findIndex(item => item.date === this.historyData.date)
+				
+				if (existingIndex !== -1) {
+					uni.showModal({
+						title: '提示',
+						content: '该日期已存在数据，是否覆盖？',
+						success: (res) => {
+							if (res.confirm) {
+								historyData[existingIndex] = { ...this.historyData }
+								this.saveAndClose(historyData)
+							}
+						}
+					})
+				} else {
+					historyData.push({ ...this.historyData })
+					this.saveAndClose(historyData)
+				}
+			},
+			
+			saveAndClose(historyData) {
+				// 按日期排序
+				historyData.sort((a, b) => new Date(a.date) - new Date(b.date))
+				
+				// 只保留最近7天
+				historyData = historyData.slice(-7)
+				
+				uni.setStorageSync('waterData', historyData)
+				
+				uni.showToast({
+					title: '保存成功',
+					icon: 'success'
+				})
+				
+				this.closeModal()
 			}
 		}
 	}
@@ -357,5 +488,115 @@
 	button {
 		font-size: 32rpx;
 		border-radius: 8rpx;
+	}
+
+	.history-entry {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background: #fff;
+		padding: 20rpx 30rpx;
+		margin-bottom: 30rpx;
+		border-radius: 16rpx;
+		box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+	}
+
+	.history-text {
+		font-size: 28rpx;
+		color: #333;
+	}
+
+	.history-icon {
+		width: 40rpx;
+		height: 40rpx;
+		line-height: 36rpx;
+		text-align: center;
+		border-radius: 50%;
+		background: #07c160;
+		color: #fff;
+		font-size: 32rpx;
+	}
+
+	.modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 999;
+	}
+
+	.modal-content {
+		width: 80%;
+		background: #fff;
+		border-radius: 16rpx;
+		overflow: hidden;
+	}
+
+	.modal-header {
+		padding: 30rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1rpx solid #eee;
+	}
+
+	.modal-title {
+		font-size: 32rpx;
+		font-weight: bold;
+		color: #333;
+	}
+
+	.modal-close {
+		font-size: 40rpx;
+		color: #999;
+		padding: 0 20rpx;
+	}
+
+	.modal-body {
+		padding: 30rpx;
+	}
+
+	.date-picker {
+		height: 80rpx;
+		border: 2rpx solid #e5e5e5;
+		border-radius: 8rpx;
+		padding: 0 20rpx;
+	}
+
+	.picker-value {
+		line-height: 80rpx;
+		font-size: 28rpx;
+		color: #333;
+	}
+
+	.modal-footer {
+		padding: 20rpx;
+		display: flex;
+		justify-content: flex-end;
+		gap: 20rpx;
+		border-top: 1rpx solid #eee;
+	}
+
+	.cancel-btn, .confirm-btn {
+		padding: 0 40rpx;
+		height: 70rpx;
+		line-height: 70rpx;
+		border-radius: 8rpx;
+		font-size: 28rpx;
+	}
+
+	.cancel-btn {
+		background: #f5f5f5;
+		color: #666;
+	}
+
+	.confirm-btn {
+		background: #07c160;
+		color: #fff;
 	}
 </style>
