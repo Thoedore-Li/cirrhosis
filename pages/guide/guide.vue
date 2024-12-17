@@ -35,7 +35,7 @@ export default {
           title: '饮食管理',
           content: [
             '每日摄入盐分应控制在2克以内（约5克食盐）',
-            '避免高盐食品，如��制食品、罐头、泡菜等',
+            '避免高盐食品，如腌制食品、罐头、泡菜等',
             '保持适量蛋白质摄入（每日1.2-1.5g/kg体重）',
             '补充足够热量（25-30kcal/kg体重）'
           ]
@@ -73,15 +73,26 @@ export default {
       
       // 检查体重变化
       const weightDiff = today.weight - yesterday.weight
-      if (weightDiff >= 0.5) {
-        this.hasWarning = true
-        this.warningMessage = `您的体重在24小时内增加了${weightDiff.toFixed(1)}公斤，建议：\n1. 严格��制盐分摄入\n2. 遵医嘱服用利尿剂\n3. 如体重继续增加请及时就医`
-      }
+      const hasWeightWarning = weightDiff >= 1
+      const hasUrineWarning = Number(today.urine) < 500
       
-      // 检查尿量
-      if (today.urine < 500) {
+      if (hasWeightWarning || hasUrineWarning) {
         this.hasWarning = true
-        this.warningMessage = `您的尿量偏少（${today.urine}ml），建议：\n1. 咨询医生是否需要调整利尿剂用量\n2. 严格限制液体摄入\n3. 密切监测体重变化`
+        let warningMsg = '警告：\n'
+        
+        if (hasWeightWarning) {
+          warningMsg += `• 您的体重在24小时内增加了${weightDiff.toFixed(1)}公斤\n`
+        }
+        if (hasUrineWarning) {
+          warningMsg += `• 您的尿量偏少（${today.urine}ml）\n`
+        }
+        
+        this.warningMessage = warningMsg + '\n建议：\n' +
+          '1. 立即就医复诊\n' +
+          '2. 严格限制盐分摄入（每日<5g）\n' +
+          '3. 遵医嘱服用利尿剂\n' +
+          '4. 每日监测体重和尿量\n' +
+          '5. 必要时限制液体摄入'
       }
     }
   }

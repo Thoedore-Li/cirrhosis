@@ -230,10 +230,21 @@ var _default = {
       var today = historyData[historyData.length - 1];
       var yesterday = historyData[historyData.length - 2];
       var weightDiff = today.weight - yesterday.weight;
-      if (weightDiff >= 1) {
+
+      // 检查体重和尿量异常
+      var hasWeightWarning = weightDiff >= 1;
+      var hasUrineWarning = Number(today.urine) < 500;
+      if (hasWeightWarning || hasUrineWarning) {
+        var warningMsg = '';
+        if (hasWeightWarning) {
+          warningMsg += "\u60A8\u7684\u4F53\u91CD\u572824\u5C0F\u65F6\u5185\u589E\u52A0\u4E86".concat(weightDiff.toFixed(1), "\u516C\u65A4\n");
+        }
+        if (hasUrineWarning) {
+          warningMsg += "\u60A8\u7684\u5C3F\u91CF\u504F\u5C11(".concat(today.urine, "ml)\n");
+        }
         uni.showModal({
           title: '健康提醒',
-          content: '您的体重较昨日增加超过1公斤，建议及时就医',
+          content: warningMsg + '\n建议及时就医并查看健康指导',
           showCancel: false,
           success: function success() {
             uni.navigateTo({

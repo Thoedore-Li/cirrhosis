@@ -174,7 +174,7 @@ var _default = {
       warningMessage: '',
       guideContent: [{
         title: '饮食管理',
-        content: ['每日摄入盐分应控制在2克以内（约5克食盐）', '避免高盐食品，如��制食品、罐头、泡菜等', '保持适量蛋白质摄入（每日1.2-1.5g/kg体重）', '补充足够热量（25-30kcal/kg体重）']
+        content: ['每日摄入盐分应控制在2克以内（约5克食盐）', '避免高盐食品，如腌制食品、罐头、泡菜等', '保持适量蛋白质摄入（每日1.2-1.5g/kg体重）', '补充足够热量（25-30kcal/kg体重）']
       }, {
         title: '生活习惯',
         content: ['必须完全戒酒，避免加重肝损伤', '每日监测体重，若增加超过0.5公斤/天需就医', '适度休息，避免重体力劳动', '保持规律排便，预防便秘']
@@ -196,15 +196,18 @@ var _default = {
 
       // 检查体重变化
       var weightDiff = today.weight - yesterday.weight;
-      if (weightDiff >= 0.5) {
+      var hasWeightWarning = weightDiff >= 1;
+      var hasUrineWarning = Number(today.urine) < 500;
+      if (hasWeightWarning || hasUrineWarning) {
         this.hasWarning = true;
-        this.warningMessage = "\u60A8\u7684\u4F53\u91CD\u572824\u5C0F\u65F6\u5185\u589E\u52A0\u4E86".concat(weightDiff.toFixed(1), "\u516C\u65A4\uFF0C\u5EFA\u8BAE\uFF1A\n1. \u4E25\u683C\uFFFD\uFFFD\u5236\u76D0\u5206\u6444\u5165\n2. \u9075\u533B\u5631\u670D\u7528\u5229\u5C3F\u5242\n3. \u5982\u4F53\u91CD\u7EE7\u7EED\u589E\u52A0\u8BF7\u53CA\u65F6\u5C31\u533B");
-      }
-
-      // 检查尿量
-      if (today.urine < 500) {
-        this.hasWarning = true;
-        this.warningMessage = "\u60A8\u7684\u5C3F\u91CF\u504F\u5C11\uFF08".concat(today.urine, "ml\uFF09\uFF0C\u5EFA\u8BAE\uFF1A\n1. \u54A8\u8BE2\u533B\u751F\u662F\u5426\u9700\u8981\u8C03\u6574\u5229\u5C3F\u5242\u7528\u91CF\n2. \u4E25\u683C\u9650\u5236\u6DB2\u4F53\u6444\u5165\n3. \u5BC6\u5207\u76D1\u6D4B\u4F53\u91CD\u53D8\u5316");
+        var warningMsg = '警告：\n';
+        if (hasWeightWarning) {
+          warningMsg += "\u2022 \u60A8\u7684\u4F53\u91CD\u572824\u5C0F\u65F6\u5185\u589E\u52A0\u4E86".concat(weightDiff.toFixed(1), "\u516C\u65A4\n");
+        }
+        if (hasUrineWarning) {
+          warningMsg += "\u2022 \u60A8\u7684\u5C3F\u91CF\u504F\u5C11\uFF08".concat(today.urine, "ml\uFF09\n");
+        }
+        this.warningMessage = warningMsg + '\n建议：\n' + '1. 立即就医复诊\n' + '2. 严格限制盐分摄入（每日<5g）\n' + '3. 遵医嘱服用利尿剂\n' + '4. 每日监测体重和尿量\n' + '5. 必要时限制液体摄入';
       }
     }
   }

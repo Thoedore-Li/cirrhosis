@@ -93,10 +93,23 @@
 				
 				const weightDiff = today.weight - yesterday.weight
 				
-				if (weightDiff >= 1) {
+				// 检查体重和尿量异常
+				const hasWeightWarning = weightDiff >= 1
+				const hasUrineWarning = Number(today.urine) < 500
+				
+				if (hasWeightWarning || hasUrineWarning) {
+					let warningMsg = ''
+					
+					if (hasWeightWarning) {
+						warningMsg += `您的体重在24小时内增加了${weightDiff.toFixed(1)}公斤\n`
+					}
+					if (hasUrineWarning) {
+						warningMsg += `您的尿量偏少(${today.urine}ml)\n`
+					}
+					
 					uni.showModal({
 						title: '健康提醒',
-						content: '您的体重较昨日增加超过1公斤，建议及时就医',
+						content: warningMsg + '\n建议及时就医并查看健康指导',
 						showCancel: false,
 						success: () => {
 							uni.navigateTo({
