@@ -1,0 +1,1 @@
+<view class="hospital-header"><view class="header-content"><image class="logo" src="/static/hospital-logo.png" mode="aspectFit"></image><view class="title-container"><text class="hospital-name">荣昌区人民医院</text><text class="department-name">应急中心及肝病中心</text></view></view></view>

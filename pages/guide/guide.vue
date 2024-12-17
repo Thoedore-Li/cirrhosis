@@ -1,5 +1,6 @@
 <template>
   <view class="guide-container">
+    <hospital-header></hospital-header>
     <!-- 个性化提醒部分 -->
     <view class="alert-section" v-if="hasWarning">
       <view class="alert-box">
@@ -101,11 +102,12 @@ export default {
 
 <style>
 .guide-container {
-  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
 }
 
 .alert-section {
-  margin-bottom: 20px;
+  padding: 30rpx;
 }
 
 .alert-box {
@@ -113,6 +115,7 @@ export default {
   border-radius: 8px;
   padding: 15px;
   border: 1px solid #ffcdd2;
+  box-shadow: 0 2rpx 10rpx rgba(255, 205, 210, 0.2);
 }
 
 .alert-title {
@@ -132,16 +135,19 @@ export default {
 .guide-section {
   background-color: #ffffff;
   border-radius: 8px;
+  margin: 30rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
 .section-item {
-  margin-bottom: 20px;
+  margin-bottom: 40rpx;
 }
 
 .section-title {
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #07c160;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
 }

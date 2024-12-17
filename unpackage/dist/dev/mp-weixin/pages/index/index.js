@@ -98,10 +98,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    hospitalHeader: function () {
+      return __webpack_require__.e(/*! import() | components/hospital-header/hospital-header */ "components/hospital-header/hospital-header").then(__webpack_require__.bind(null, /*! @/components/hospital-header/hospital-header.vue */ 130))
+    },
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = _vm.todayUrineList.length
+  var g1 = g0 > 0 ? _vm.todayUrineList.length : null
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        g0: g0,
+        g1: g1,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -141,42 +175,31 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var HospitalHeader = function HospitalHeader() {
+  __webpack_require__.e(/*! require.ensure | components/hospital-header/hospital-header */ "components/hospital-header/hospital-header").then((function () {
+    return resolve(__webpack_require__(/*! @/components/hospital-header/hospital-header.vue */ 130));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
+  components: {
+    HospitalHeader: HospitalHeader
+  },
   data: function data() {
     return {
       dailyData: {
         date: '',
         urine: '',
         weight: ''
-      }
+      },
+      currentUrine: '',
+      todayUrineList: []
     };
+  },
+  onLoad: function onLoad() {
+    // 初始化今日尿量列表
+    var today = new Date().toISOString().split('T')[0];
+    this.todayUrineList = uni.getStorageSync("urineList_".concat(today)) || [];
+    this.updateTotalUrine();
   },
   methods: {
     validateInput: function validateInput(e) {
@@ -258,6 +281,47 @@ var _default = {
       uni.navigateTo({
         url: '/pages/trend/trend'
       });
+    },
+    addUrine: function addUrine() {
+      if (!this.currentUrine) {
+        uni.showToast({
+          title: '请输入尿量',
+          icon: 'none'
+        });
+        return;
+      }
+      var urineValue = Number(this.currentUrine);
+      if (urineValue <= 0) {
+        uni.showToast({
+          title: '请输入有效尿量',
+          icon: 'none'
+        });
+        return;
+      }
+      var today = new Date().toISOString().split('T')[0];
+      this.todayUrineList.push({
+        value: urineValue,
+        time: new Date().toLocaleTimeString()
+      });
+
+      // 保存尿量列表
+      uni.setStorageSync("urineList_".concat(today), this.todayUrineList);
+
+      // 更新总尿量
+      this.updateTotalUrine();
+
+      // 清空输入框
+      this.currentUrine = '';
+      uni.showToast({
+        title: '添加成功',
+        icon: 'success'
+      });
+    },
+    updateTotalUrine: function updateTotalUrine() {
+      var total = this.todayUrineList.reduce(function (sum, item) {
+        return sum + item.value;
+      }, 0);
+      this.dailyData.urine = String(total);
     }
   }
 };

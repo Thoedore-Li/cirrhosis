@@ -1,5 +1,6 @@
 <template>
   <view class="trend-container">
+    <hospital-header></hospital-header>
     <view class="chart-container">
       <!-- uCharts 图表容器 -->
       <qiun-data-charts
@@ -50,7 +51,7 @@ export default {
           data: [
             {
               position: 'left',
-              title: '体重(kg)',
+              title: '���重(kg)',
               min: 40,
               max: 100
             },

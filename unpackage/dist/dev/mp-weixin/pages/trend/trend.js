@@ -100,6 +100,9 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    hospitalHeader: function () {
+      return __webpack_require__.e(/*! import() | components/hospital-header/hospital-header */ "components/hospital-header/hospital-header").then(__webpack_require__.bind(null, /*! @/components/hospital-header/hospital-header.vue */ 130))
+    },
     qiunDataCharts: function () {
       return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 58))
     },
@@ -209,6 +212,7 @@ exports.default = void 0;
 //
 //
 //
+//
 var _default = {
   data: function data() {
     return {
@@ -230,7 +234,7 @@ var _default = {
         yAxis: {
           data: [{
             position: 'left',
-            title: '体重(kg)',
+            title: '���重(kg)',
             min: 40,
             max: 100
           }, {
