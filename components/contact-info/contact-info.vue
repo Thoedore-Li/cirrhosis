@@ -1,4 +1,48 @@
+<template>
+  <view class="contact-section">
+    <view class="contact-title">如需专业指导，可联系：</view>
+    <view class="contact-list">
+      <view class="contact-item" @tap="makeCall('023-46331306')">
+        <text class="department">1. 住院部：</text>
+        <text class="phone">(023) 46331306</text>
+      </view>
+      <view class="contact-item" @tap="makeCall('023-46331315')">
+        <text class="department">2. 肝病门诊：</text>
+        <text class="phone">(023) 46331315</text>
+      </view>
+    </view>
+  </view>
+</template>
 
+<script>
+export default {
+  methods: {
+    makeCall(phoneNumber) {
+      const cleanNumber = phoneNumber.replace(/[^0-9]/g, '')
+      
+      // #ifdef MP-WEIXIN
+      uni.makePhoneCall({
+        phoneNumber: cleanNumber,
+        fail() {
+          uni.showModal({
+            title: '提示',
+            content: `请手动拨打电话：${phoneNumber}`,
+            icon: 'none',
+            showCancel: false
+          })
+        }
+      })
+      // #endif
+      
+      // #ifdef H5
+      window.location.href = `tel:${cleanNumber}`
+      // #endif
+    }
+  }
+}
+</script>
+
+<style>
 .contact-section {
   background: #fff;
   padding: 30rpx;
@@ -6,16 +50,19 @@
   border-radius: 16rpx;
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
+
 .contact-title {
   font-size: 28rpx;
   color: #666;
   margin-bottom: 20rpx;
 }
+
 .contact-list {
   display: flex;
   flex-direction: column;
   gap: 16rpx;
 }
+
 .contact-item {
   display: flex;
   align-items: center;
@@ -23,19 +70,23 @@
   cursor: pointer;
   transition: opacity 0.2s;
 }
+
 .contact-item:active {
   opacity: 0.7;
 }
+
 .department {
   font-size: 28rpx;
   color: #333;
 }
+
 .phone {
   font-size: 28rpx;
   color: #07c160;
   text-decoration: underline;
   margin-left: 10rpx;
 }
+
 .contact-item::after {
   content: '';
   display: inline-block;
@@ -45,47 +96,4 @@
   background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzA3YzE2MCI+PHBhdGggZD0iTTYuNjIgMTAuNzljLjM1IDMuMDQgMS45NSA1LjggNC4zMiA3LjU5bDIuMDMtMi4wM2MuMjUtLjI1LjYxLS4zNS45MS0uMjMgMS4wOS4zNiAyLjI1LjU1IDMuNDUuNTUuNDEgMCAuNzUuMzQuNzUuNzVWMjBjMCAuNDEtLjM0Ljc1LS43NS43NUM3LjI2IDIwLjc1IDIgMTUuNDkgMiA5YzAtLjQxLjM0LS43NS43NS0uNzVoMi45MmMuNDEgMCAuNzUuMzQuNzUuNzUgMCAxLjIuMTkgMi4zNi41NSAzLjQ1LjEyLjMuMDIuNjYtLjIzLjkxTDQuNjIgMTUuNzl6Ii8+PC9zdmc+') no-repeat center;
   background-size: contain;
 }
-
-
-.trend-container {
-  padding: 20px;
-}
-.chart-container {
-  width: 100%;
-  height: 400px;
-  background: #fff;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-.data-list {
-  background: #fff;
-  border-radius: 8px;
-  padding: 15px;
-}
-.list-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-  font-weight: bold;
-}
-.header-item {
-  flex: 1;
-  text-align: center;
-  color: #333;
-}
-.list-content {
-  margin-top: 10px;
-}
-.list-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #f5f5f5;
-}
-.item-cell {
-  flex: 1;
-  text-align: center;
-  color: #666;
-}
-
+</style> 

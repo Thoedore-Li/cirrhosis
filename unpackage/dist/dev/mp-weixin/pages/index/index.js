@@ -103,6 +103,9 @@ try {
     hospitalHeader: function () {
       return __webpack_require__.e(/*! import() | components/hospital-header/hospital-header */ "components/hospital-header/hospital-header").then(__webpack_require__.bind(null, /*! @/components/hospital-header/hospital-header.vue */ 130))
     },
+    contactInfo: function () {
+      return __webpack_require__.e(/*! import() | components/contact-info/contact-info */ "components/contact-info/contact-info").then(__webpack_require__.bind(null, /*! @/components/contact-info/contact-info.vue */ 145))
+    },
   }
 } catch (e) {
   if (
@@ -180,9 +183,15 @@ var HospitalHeader = function HospitalHeader() {
     return resolve(__webpack_require__(/*! @/components/hospital-header/hospital-header.vue */ 130));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var ContactInfo = function ContactInfo() {
+  __webpack_require__.e(/*! require.ensure | components/contact-info/contact-info */ "components/contact-info/contact-info").then((function () {
+    return resolve(__webpack_require__(/*! @/components/contact-info/contact-info.vue */ 145));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
-    HospitalHeader: HospitalHeader
+    HospitalHeader: HospitalHeader,
+    ContactInfo: ContactInfo
   },
   data: function data() {
     return {

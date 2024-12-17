@@ -60,16 +60,19 @@
 				<button @click="saveData" type="primary" class="save-btn">保存今日数据</button>
 				<button @click="goToTrend" class="trend-btn">查看趋势分析</button>
 			</view>
+			<contact-info></contact-info>
 		</view>
 	</view>
 </template>
 
 <script>
 	import HospitalHeader from '@/components/hospital-header/hospital-header.vue'
+	import ContactInfo from '@/components/contact-info/contact-info.vue'
 	
 	export default {
 		components: {
-			HospitalHeader
+			HospitalHeader,
+			ContactInfo
 		},
 		data() {
 			return {

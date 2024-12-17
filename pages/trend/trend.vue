@@ -25,10 +25,13 @@
         </view>
       </view>
     </view>
+    <contact-info></contact-info>
   </view>
 </template>
 
 <script>
+import ContactInfo from '@/components/contact-info/contact-info.vue'
+
 export default {
   data() {
     return {
@@ -51,7 +54,7 @@ export default {
           data: [
             {
               position: 'left',
-              title: '���重(kg)',
+              title: '体重(kg)',
               min: 40,
               max: 100
             },

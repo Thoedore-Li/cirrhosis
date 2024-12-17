@@ -10,6 +10,11 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
+  "permission": {
+    "scope.phoneCall": {
+      "desc": "您的手机号码将用于联系医护人员"
+    }
+  },
   "usingComponents": {
     "qiun-data-charts": "@/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts"
   },

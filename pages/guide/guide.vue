@@ -22,10 +22,13 @@
         </view>
       </view>
     </view>
+    <contact-info></contact-info>
   </view>
 </template>
 
 <script>
+import ContactInfo from '@/components/contact-info/contact-info.vue'
+
 export default {
   data() {
     return {

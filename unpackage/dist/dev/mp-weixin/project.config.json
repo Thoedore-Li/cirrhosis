@@ -21,7 +21,17 @@
   "libVersion": "3.7.1",
   "appid": "touristappid",
   "projectname": "cirrhosis",
-  "condition": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "开发环境",
+          "pathName": "pages/index/index",
+          "query": "env=dev"
+        }
+      ]
+    }
+  },
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2

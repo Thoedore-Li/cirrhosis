@@ -18272,6 +18272,14 @@ var _default = {
   "easycom": {
     "^l-echart": "@/uni_modules/lime-echart/components/l-echart/l-echart.vue",
     "^qiun-data-charts": "@/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue"
+  },
+  "condition": {
+    "current": 0,
+    "list": [{
+      "name": "开发环境",
+      "path": "pages/index/index",
+      "query": "env=dev"
+    }]
   }
 };
 exports.default = _default;
