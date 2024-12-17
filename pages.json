@@ -1,0 +1,33 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "腹水管理"
+			}
+		},
+		{
+			"path": "pages/guide/guide",
+			"style": {
+				"navigationBarTitleText": "健康指导"
+			}
+		},
+		{
+			"path": "pages/trend/trend",
+			"style": {
+				"navigationBarTitleText": "数据趋势"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "腹水管理",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {},
+	"easycom": {
+		"^l-echart": "@/uni_modules/lime-echart/components/l-echart/l-echart.vue",
+		"^qiun-data-charts": "@/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue"
+	}
+}
