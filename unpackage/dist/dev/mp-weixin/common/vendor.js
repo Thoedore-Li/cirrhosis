@@ -9674,7 +9674,21 @@ uni.addInterceptor({
 /* 60 */,
 /* 61 */,
 /* 62 */,
-/* 63 */
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -9689,20 +9703,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.uniCloud = exports.default = exports.UniCloudError = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 64));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 66));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 78));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 80));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 67));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 81));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 68));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 69));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 70));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 71));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 82));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 83));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 84));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 85));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 73));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 87));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e33) { throw _e33; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e34) { didErr = true; err = _e34; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -10155,7 +10169,7 @@ var S = "development" === "development",
   x = true;
 var O = "";
 try {
-  O = (__webpack_require__(/*! uni-stat-config */ 74).default || __webpack_require__(/*! uni-stat-config */ 74)).appid;
+  O = (__webpack_require__(/*! uni-stat-config */ 88).default || __webpack_require__(/*! uni-stat-config */ 88)).appid;
 } catch (e) {}
 var E = {};
 function L(e) {
@@ -17721,7 +17735,7 @@ exports.default = Ys;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 64 */
+/* 78 */
 /*!************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/@babel/runtime/regenerator/index.js ***!
   \************************************************************************************************/
@@ -17730,11 +17744,11 @@ exports.default = Ys;
 
 // TODO(Babel 8): Remove this file.
 
-var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 65)();
+var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 79)();
 module.exports = runtime;
 
 /***/ }),
-/* 65 */
+/* 79 */
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
   \*******************************************************************/
@@ -18055,7 +18069,7 @@ function _regeneratorRuntime() {
 module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 66 */
+/* 80 */
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -18071,7 +18085,7 @@ function _assertThisInitialized(self) {
 module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 67 */
+/* 81 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
   \*****************************************************************/
@@ -18111,7 +18125,7 @@ function _asyncToGenerator(fn) {
 module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 68 */
+/* 82 */
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -18138,7 +18152,7 @@ function _inherits(subClass, superClass) {
 module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 69 */
+/* 83 */
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -18146,7 +18160,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 66);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 80);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -18158,7 +18172,7 @@ function _possibleConstructorReturn(self, call) {
 module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 70 */
+/* 84 */
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -18174,16 +18188,16 @@ function _getPrototypeOf(o) {
 module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 71 */
+/* 85 */
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 70);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 84);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 72);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 86);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -18214,7 +18228,7 @@ function _wrapNativeSuper(Class) {
 module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 72 */
+/* 86 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -18231,7 +18245,7 @@ function _isNativeFunction(fn) {
 module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 73 */
+/* 87 */
 /*!*******************************************************************************!*\
   !*** D:/programming/uniapp/cirrhosis/pages.json?{"type":"origin-pages-json"} ***!
   \*******************************************************************************/
@@ -18262,6 +18276,28 @@ var _default = {
       "navigationBarTitleText": "数据趋势"
     }
   }],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#07c160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "首页",
+      "iconPath": "static/tabbar/home.png",
+      "selectedIconPath": "static/tabbar/home-active.png"
+    }, {
+      "pagePath": "pages/guide/guide",
+      "text": "健康指导",
+      "iconPath": "static/tabbar/guide.png",
+      "selectedIconPath": "static/tabbar/guide-active.png"
+    }, {
+      "pagePath": "pages/trend/trend",
+      "text": "趋势分析",
+      "iconPath": "static/tabbar/trend.png",
+      "selectedIconPath": "static/tabbar/trend-active.png"
+    }]
+  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "腹水管理",
@@ -18285,7 +18321,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 74 */
+/* 88 */
 /*!******************************************************************!*\
   !*** D:/programming/uniapp/cirrhosis/pages.json?{"type":"stat"} ***!
   \******************************************************************/
@@ -18305,7 +18341,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 75 */
+/* 89 */
 /*!************************************************************************************************!*\
   !*** D:/programming/uniapp/cirrhosis/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js ***!
   \************************************************************************************************/
@@ -25965,7 +26001,7 @@ var _default = uCharts;
 exports.default = _default;
 
 /***/ }),
-/* 76 */
+/* 90 */
 /*!******************************************************************************************************!*\
   !*** D:/programming/uniapp/cirrhosis/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js ***!
   \******************************************************************************************************/

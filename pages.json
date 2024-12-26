@@ -19,6 +19,32 @@
 			}
 		}
 	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#07c160",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/guide/guide",
+				"text": "健康指导",
+				"iconPath": "static/tabbar/guide.png",
+				"selectedIconPath": "static/tabbar/guide-active.png"
+			},
+			{
+				"pagePath": "pages/trend/trend",
+				"text": "趋势分析",
+				"iconPath": "static/tabbar/trend.png",
+				"selectedIconPath": "static/tabbar/trend-active.png"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "腹水管理",
