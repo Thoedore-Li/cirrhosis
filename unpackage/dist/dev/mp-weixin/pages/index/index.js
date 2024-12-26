@@ -202,7 +202,8 @@ var _default = {
       dailyData: {
         date: '',
         urine: '',
-        weight: ''
+        weight: '',
+        diuretics: []
       },
       currentUrine: '',
       todayUrineList: [],
@@ -212,7 +213,20 @@ var _default = {
         date: '',
         weight: '',
         urine: ''
-      }
+      },
+      diureticList: [{
+        name: '螺内酯',
+        used: false,
+        dose: ''
+      }, {
+        name: '呋塞米',
+        used: false,
+        dose: ''
+      }, {
+        name: '托伐普坦',
+        used: false,
+        dose: ''
+      }]
     };
   },
   onLoad: function onLoad() {
@@ -242,6 +256,16 @@ var _default = {
         });
         return;
       }
+
+      // 收集利尿剂使用记录
+      this.dailyData.diuretics = this.diureticList.filter(function (drug) {
+        return drug.used;
+      }).map(function (drug) {
+        return {
+          name: drug.name,
+          dose: drug.dose
+        };
+      });
       this.dailyData.date = new Date().toISOString().split('T')[0];
 
       // 获取历史数据
@@ -280,7 +304,7 @@ var _default = {
       if (hasWeightWarning || hasUrineWarning) {
         var warningMsg = '';
         if (hasWeightWarning) {
-          warningMsg += "\u60A8\u7684\u4F53\u91CD\u572824\u5C0F\u65F6\u5185\u589E\u52A0\u4E86".concat(weightDiff.toFixed(1), "\u516C\u65A4\n");
+          warningMsg += "\u60A8\u7684\u4F53\u91CD\u572824\u5C0F\u65F6\uFFFD\uFFFD\uFFFD\u589E\u52A0\u4E86".concat(weightDiff.toFixed(1), "\u516C\u65A4\n");
         }
         if (hasUrineWarning) {
           warningMsg += "\u60A8\u7684\u5C3F\u91CF\u504F\u5C11(".concat(today.urine, "ml)\n");
@@ -404,6 +428,12 @@ var _default = {
         icon: 'success'
       });
       this.closeModal();
+    },
+    toggleDrug: function toggleDrug(index) {
+      this.diureticList[index].used = !this.diureticList[index].used;
+      if (!this.diureticList[index].used) {
+        this.diureticList[index].dose = '';
+      }
     }
   }
 };

@@ -9,24 +9,6 @@
 				<text class="history-icon">+</text>
 			</view>
 			
-			<!-- 体重记录卡片 -->
-			<view class="card">
-				<view class="card-header">
-					<text class="card-title">体重记录</text>
-					<text class="card-subtitle">每日测量体重，监测腹水变化</text>
-				</view>
-				<view class="form-item">
-					<text class="label">今日体重 (kg)</text>
-					<input 
-						type="digit" 
-						v-model="dailyData.weight" 
-						placeholder="请输入今日体重"
-						@input="validateInput"
-						class="input-box"
-					/>
-				</view>
-			</view>
-
 			<!-- 尿量记录卡片 -->
 			<view class="card">
 				<view class="card-header">
@@ -56,6 +38,49 @@
 						<view class="urine-item" v-for="(item, index) in todayUrineList" :key="index">
 							<text class="time">{{item.time}}</text>
 							<text class="value">{{item.value}}ml</text>
+						</view>
+					</view>
+				</view>
+			</view>
+			
+			<!-- 体重记录卡片 -->
+			<view class="card">
+				<view class="card-header">
+					<text class="card-title">体重记录</text>
+					<text class="card-subtitle">每日测量体重，监测腹水变化</text>
+				</view>
+				<view class="form-item">
+					<text class="label">今日体重 (kg)</text>
+					<input 
+						type="digit" 
+						v-model="dailyData.weight" 
+						placeholder="请输入今日体重"
+						@input="validateInput"
+						class="input-box"
+					/>
+				</view>
+			</view>
+
+			<!-- 利尿剂使用记录卡片 -->
+			<view class="card">
+				<view class="card-header">
+					<text class="card-title">利尿剂使用记录</text>
+					<text class="card-subtitle">记录每日利尿剂使用情况</text>
+				</view>
+				<view class="diuretic-section">
+					<view class="diuretic-item" v-for="(drug, index) in diureticList" :key="index">
+						<view class="drug-header">
+							<checkbox :checked="drug.used" @tap="toggleDrug(index)"></checkbox>
+							<text class="drug-name">{{drug.name}}</text>
+						</view>
+						<view class="drug-input" v-if="drug.used">
+							<input 
+								type="digit" 
+								v-model="drug.dose" 
+								placeholder="请输入剂量"
+								class="input-box"
+							/>
+							<text class="unit">mg</text>
 						</view>
 					</view>
 				</view>
@@ -137,7 +162,8 @@
 				dailyData: {
 					date: '',
 					urine: '',
-					weight: ''
+					weight: '',
+					diuretics: []
 				},
 				currentUrine: '',
 				todayUrineList: [],
@@ -147,7 +173,12 @@
 					date: '',
 					weight: '',
 					urine: ''
-				}
+				},
+				diureticList: [
+					{ name: '螺内酯', used: false, dose: '' },
+					{ name: '呋塞米', used: false, dose: '' },
+					{ name: '托伐普坦', used: false, dose: '' }
+				]
 			}
 		},
 		onLoad() {
@@ -177,6 +208,14 @@
 					})
 					return
 				}
+				
+				// 收集利尿剂使用记录
+				this.dailyData.diuretics = this.diureticList
+					.filter(drug => drug.used)
+					.map(drug => ({
+						name: drug.name,
+						dose: drug.dose
+					}))
 				
 				this.dailyData.date = new Date().toISOString().split('T')[0]
 				
@@ -221,7 +260,7 @@
 					let warningMsg = ''
 					
 					if (hasWeightWarning) {
-						warningMsg += `您的体重在24小时内增加了${weightDiff.toFixed(1)}公斤\n`
+						warningMsg += `您的体重在24小时���增加了${weightDiff.toFixed(1)}公斤\n`
 					}
 					if (hasUrineWarning) {
 						warningMsg += `您的尿量偏少(${today.urine}ml)\n`
@@ -353,6 +392,13 @@
 				})
 				
 				this.closeModal()
+			},
+			
+			toggleDrug(index) {
+				this.diureticList[index].used = !this.diureticList[index].used
+				if (!this.diureticList[index].used) {
+					this.diureticList[index].dose = ''
+				}
 			}
 		}
 	}
@@ -598,5 +644,50 @@
 	.confirm-btn {
 		background: #07c160;
 		color: #fff;
+	}
+
+	.diuretic-section {
+		margin-top: 20rpx;
+	}
+
+	.diuretic-item {
+		padding: 20rpx 0;
+		border-bottom: 1px solid #f5f5f5;
+	}
+
+	.diuretic-item:last-child {
+		border-bottom: none;
+	}
+
+	.drug-header {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10rpx;
+	}
+
+	.drug-name {
+		margin-left: 20rpx;
+		font-size: 28rpx;
+		color: #333;
+	}
+
+	.drug-input {
+		display: flex;
+		align-items: center;
+		margin-left: 60rpx;
+	}
+
+	.input-box {
+		width: 200rpx;
+		height: 60rpx;
+		border: 1px solid #e5e5e5;
+		border-radius: 6rpx;
+		padding: 0 20rpx;
+		margin-right: 10rpx;
+	}
+
+	.unit {
+		font-size: 26rpx;
+		color: #666;
 	}
 </style>
