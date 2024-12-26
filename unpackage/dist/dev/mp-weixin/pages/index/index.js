@@ -212,7 +212,20 @@ var _default = {
       historyData: {
         date: '',
         weight: '',
-        urine: ''
+        urine: '',
+        diuretics: [{
+          name: '螺内酯',
+          used: false,
+          dose: ''
+        }, {
+          name: '呋塞米',
+          used: false,
+          dose: ''
+        }, {
+          name: '托伐普坦',
+          used: false,
+          dose: ''
+        }]
       },
       diureticList: [{
         name: '螺内酯',
@@ -304,7 +317,7 @@ var _default = {
       if (hasWeightWarning || hasUrineWarning) {
         var warningMsg = '';
         if (hasWeightWarning) {
-          warningMsg += "\u60A8\u7684\u4F53\u91CD\u572824\u5C0F\u65F6\uFFFD\uFFFD\uFFFD\u589E\u52A0\u4E86".concat(weightDiff.toFixed(1), "\u516C\u65A4\n");
+          warningMsg += "\u60A8\u7684\u4F53\u91CD\u572824\u5C0F\u65F6\u5185\u589E\u52A0\u4E86".concat(weightDiff.toFixed(1), "\u516C\u65A4\n");
         }
         if (hasUrineWarning) {
           warningMsg += "\u60A8\u7684\u5C3F\u91CF\u504F\u5C11(".concat(today.urine, "ml)\n");
@@ -372,7 +385,20 @@ var _default = {
       this.historyData = {
         date: '',
         weight: '',
-        urine: ''
+        urine: '',
+        diuretics: [{
+          name: '螺内酯',
+          used: false,
+          dose: ''
+        }, {
+          name: '呋塞米',
+          used: false,
+          dose: ''
+        }, {
+          name: '托伐普坦',
+          used: false,
+          dose: ''
+        }]
       };
     },
     closeModal: function closeModal() {
@@ -391,6 +417,16 @@ var _default = {
         return;
       }
 
+      // 处理利尿剂数据
+      var diuretics = this.historyData.diuretics.filter(function (drug) {
+        return drug.used;
+      }).map(function (drug) {
+        return {
+          name: drug.name,
+          dose: drug.dose
+        };
+      });
+
       // 获取历史数据
       var historyData = uni.getStorageSync('waterData') || [];
 
@@ -398,19 +434,22 @@ var _default = {
       var existingIndex = historyData.findIndex(function (item) {
         return item.date === _this2.historyData.date;
       });
+      var newData = _objectSpread(_objectSpread({}, this.historyData), {}, {
+        diuretics: diuretics
+      });
       if (existingIndex !== -1) {
         uni.showModal({
           title: '提示',
           content: '该日期已存在数据，是否覆盖？',
           success: function success(res) {
             if (res.confirm) {
-              historyData[existingIndex] = _objectSpread({}, _this2.historyData);
+              historyData[existingIndex] = newData;
               _this2.saveAndClose(historyData);
             }
           }
         });
       } else {
-        historyData.push(_objectSpread({}, this.historyData));
+        historyData.push(newData);
         this.saveAndClose(historyData);
       }
     },
@@ -433,6 +472,12 @@ var _default = {
       this.diureticList[index].used = !this.diureticList[index].used;
       if (!this.diureticList[index].used) {
         this.diureticList[index].dose = '';
+      }
+    },
+    toggleHistoryDrug: function toggleHistoryDrug(index) {
+      this.historyData.diuretics[index].used = !this.historyData.diuretics[index].used;
+      if (!this.historyData.diuretics[index].used) {
+        this.historyData.diuretics[index].dose = '';
       }
     }
   }

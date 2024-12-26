@@ -322,9 +322,11 @@ var render = function () {
   var l0 = _vm.__map(_vm.historyData, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.formatDate(item.date)
+    var m1 = _vm.formatDiuretics(item.diuretics)
     return {
       $orig: $orig,
       m0: m0,
+      m1: m1,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -407,11 +409,29 @@ var _contactInfo = _interopRequireDefault(__webpack_require__(/*! @/components/c
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       historyData: [],
       chartData: {
+        categories: [],
+        series: []
+      },
+      diureticData: {
         categories: [],
         series: []
       },
@@ -444,6 +464,31 @@ var _default = {
             width: 2
           }
         }
+      },
+      diureticOpts: {
+        padding: [15, 15, 0, 15],
+        legend: {
+          show: true,
+          position: 'bottom',
+          float: 'center'
+        },
+        xAxis: {
+          disableGrid: true
+        },
+        yAxis: {
+          data: [{
+            position: 'left',
+            title: '剂量(mg)',
+            min: 0
+          }]
+        },
+        extra: {
+          column: {
+            width: 30,
+            activeBgColor: '#2c9f67',
+            activeBgOpacity: 0.3
+          }
+        }
       }
     };
   },
@@ -463,10 +508,17 @@ var _default = {
 
       // 更新图表数据
       this.updateChartData();
+      this.updateDiureticData();
     },
     formatDate: function formatDate(dateStr) {
       var date = new Date(dateStr);
       return "".concat(date.getMonth() + 1, "/").concat(date.getDate());
+    },
+    formatDiuretics: function formatDiuretics(diuretics) {
+      if (!diuretics || !diuretics.length) return '-';
+      return diuretics.map(function (d) {
+        return "".concat(d.name).concat(d.dose, "mg");
+      }).join('、');
     },
     updateChartData: function updateChartData() {
       var _this = this;
@@ -494,6 +546,30 @@ var _default = {
           type: 'line',
           color: '#91CC75'
         }]
+      };
+    },
+    updateDiureticData: function updateDiureticData() {
+      var _this2 = this;
+      var categories = this.historyData.map(function (item) {
+        return _this2.formatDate(item.date);
+      });
+      var diureticTypes = ['螺内酯', '呋塞米', '托伐普坦'];
+      var series = diureticTypes.map(function (type) {
+        return {
+          name: type,
+          type: 'column',
+          data: _this2.historyData.map(function (item) {
+            var _item$diuretics;
+            var drug = (_item$diuretics = item.diuretics) === null || _item$diuretics === void 0 ? void 0 : _item$diuretics.find(function (d) {
+              return d.name === type;
+            });
+            return drug ? Number(drug.dose) : 0;
+          })
+        };
+      });
+      this.diureticData = {
+        categories: categories,
+        series: series
       };
     }
   }

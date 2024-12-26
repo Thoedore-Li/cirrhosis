@@ -1,12 +1,24 @@
 <template>
   <view class="trend-container">
     <hospital-header></hospital-header>
+    
+    <!-- 体重和尿量趋势图 -->
     <view class="chart-container">
-      <!-- uCharts 图表容器 -->
+      <text class="chart-title">体重和尿量趋势</text>
       <qiun-data-charts
         type="line"
         :opts="chartOpts"
         :chartData="chartData"
+      />
+    </view>
+    
+    <!-- 利尿剂使用趋势图 -->
+    <view class="chart-container">
+      <text class="chart-title">利尿剂使用趋势</text>
+      <qiun-data-charts
+        type="column"
+        :opts="diureticOpts"
+        :chartData="diureticData"
       />
     </view>
     
@@ -16,12 +28,14 @@
         <text class="header-item">日期</text>
         <text class="header-item">体重(kg)</text>
         <text class="header-item">尿量(ml)</text>
+        <text class="header-item">利尿剂</text>
       </view>
       <view class="list-content">
         <view class="list-item" v-for="(item, index) in historyData" :key="index">
           <text class="item-cell">{{formatDate(item.date)}}</text>
           <text class="item-cell">{{item.weight}}</text>
           <text class="item-cell">{{item.urine}}</text>
+          <text class="item-cell">{{formatDiuretics(item.diuretics)}}</text>
         </view>
       </view>
     </view>
@@ -37,6 +51,10 @@ export default {
     return {
       historyData: [],
       chartData: {
+        categories: [],
+        series: []
+      },
+      diureticData: {
         categories: [],
         series: []
       },
@@ -72,6 +90,33 @@ export default {
             width: 2
           }
         }
+      },
+      diureticOpts: {
+        padding: [15, 15, 0, 15],
+        legend: {
+          show: true,
+          position: 'bottom',
+          float: 'center'
+        },
+        xAxis: {
+          disableGrid: true
+        },
+        yAxis: {
+          data: [
+            {
+              position: 'left',
+              title: '剂量(mg)',
+              min: 0
+            }
+          ]
+        },
+        extra: {
+          column: {
+            width: 30,
+            activeBgColor: '#2c9f67',
+            activeBgOpacity: 0.3
+          }
+        }
       }
     }
   },
@@ -89,11 +134,17 @@ export default {
       
       // 更新图表数据
       this.updateChartData()
+      this.updateDiureticData()
     },
     
     formatDate(dateStr) {
       const date = new Date(dateStr)
       return `${date.getMonth() + 1}/${date.getDate()}`
+    },
+    
+    formatDiuretics(diuretics) {
+      if (!diuretics || !diuretics.length) return '-'
+      return diuretics.map(d => `${d.name}${d.dose}mg`).join('、')
     },
     
     updateChartData() {
@@ -120,6 +171,27 @@ export default {
           }
         ]
       }
+    },
+    
+    updateDiureticData() {
+      const categories = this.historyData.map(item => this.formatDate(item.date))
+      const diureticTypes = ['螺内酯', '呋塞米', '托伐普坦']
+      
+      const series = diureticTypes.map(type => {
+        return {
+          name: type,
+          type: 'column',
+          data: this.historyData.map(item => {
+            const drug = item.diuretics?.find(d => d.name === type)
+            return drug ? Number(drug.dose) : 0
+          })
+        }
+      })
+      
+      this.diureticData = {
+        categories,
+        series
+      }
     }
   }
 }
@@ -136,6 +208,15 @@ export default {
   background: #fff;
   border-radius: 8px;
   margin-bottom: 20px;
+  padding: 20px;
+}
+
+.chart-title {
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
 }
 
 .data-list {

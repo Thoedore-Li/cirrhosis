@@ -103,6 +103,7 @@
 				</view>
 				
 				<view class="modal-body">
+					<!-- 日期选择 -->
 					<view class="form-item">
 						<text class="label">选择日期</text>
 						<picker 
@@ -118,6 +119,7 @@
 						</picker>
 					</view>
 					
+					<!-- 体重输入 -->
 					<view class="form-item">
 						<text class="label">体重 (kg)</text>
 						<input 
@@ -128,6 +130,7 @@
 						/>
 					</view>
 					
+					<!-- 尿量输入 -->
 					<view class="form-item">
 						<text class="label">尿量 (ml)</text>
 						<input 
@@ -136,6 +139,28 @@
 							placeholder="请输入尿量"
 							class="input-box"
 						/>
+					</view>
+
+					<!-- 利尿剂使用记录 -->
+					<view class="form-item">
+						<text class="label">利尿剂使用情况</text>
+						<view class="diuretic-section">
+							<view class="diuretic-item" v-for="(drug, index) in historyData.diuretics" :key="index">
+								<view class="drug-header">
+									<checkbox :checked="drug.used" @tap="toggleHistoryDrug(index)"></checkbox>
+									<text class="drug-name">{{drug.name}}</text>
+								</view>
+								<view class="drug-input" v-if="drug.used">
+									<input 
+										type="digit" 
+										v-model="drug.dose" 
+										placeholder="请输入剂量"
+										class="input-box"
+									/>
+									<text class="unit">mg</text>
+								</view>
+							</view>
+						</view>
 					</view>
 				</view>
 				
@@ -172,7 +197,12 @@
 				historyData: {
 					date: '',
 					weight: '',
-					urine: ''
+					urine: '',
+					diuretics: [
+						{ name: '螺内酯', used: false, dose: '' },
+						{ name: '呋塞米', used: false, dose: '' },
+						{ name: '托伐普坦', used: false, dose: '' }
+					]
 				},
 				diureticList: [
 					{ name: '螺内酯', used: false, dose: '' },
@@ -260,7 +290,7 @@
 					let warningMsg = ''
 					
 					if (hasWeightWarning) {
-						warningMsg += `您的体重在24小时���增加了${weightDiff.toFixed(1)}公斤\n`
+						warningMsg += `您的体重在24小时内增加了${weightDiff.toFixed(1)}公斤\n`
 					}
 					if (hasUrineWarning) {
 						warningMsg += `您的尿量偏少(${today.urine}ml)\n`
@@ -333,7 +363,12 @@
 				this.historyData = {
 					date: '',
 					weight: '',
-					urine: ''
+					urine: '',
+					diuretics: [
+						{ name: '螺内酯', used: false, dose: '' },
+						{ name: '呋塞米', used: false, dose: '' },
+						{ name: '托伐普坦', used: false, dose: '' }
+					]
 				}
 			},
 			
@@ -354,11 +389,24 @@
 					return
 				}
 				
+				// 处理利尿剂数据
+				const diuretics = this.historyData.diuretics
+					.filter(drug => drug.used)
+					.map(drug => ({
+						name: drug.name,
+						dose: drug.dose
+					}))
+				
 				// 获取历史数据
 				let historyData = uni.getStorageSync('waterData') || []
 				
 				// 检查是否已存在该日期的数据
 				const existingIndex = historyData.findIndex(item => item.date === this.historyData.date)
+				
+				const newData = {
+					...this.historyData,
+					diuretics
+				}
 				
 				if (existingIndex !== -1) {
 					uni.showModal({
@@ -366,13 +414,13 @@
 						content: '该日期已存在数据，是否覆盖？',
 						success: (res) => {
 							if (res.confirm) {
-								historyData[existingIndex] = { ...this.historyData }
+								historyData[existingIndex] = newData
 								this.saveAndClose(historyData)
 							}
 						}
 					})
 				} else {
-					historyData.push({ ...this.historyData })
+					historyData.push(newData)
 					this.saveAndClose(historyData)
 				}
 			},
@@ -398,6 +446,13 @@
 				this.diureticList[index].used = !this.diureticList[index].used
 				if (!this.diureticList[index].used) {
 					this.diureticList[index].dose = ''
+				}
+			},
+			
+			toggleHistoryDrug(index) {
+				this.historyData.diuretics[index].used = !this.historyData.diuretics[index].used
+				if (!this.historyData.diuretics[index].used) {
+					this.historyData.diuretics[index].dose = ''
 				}
 			}
 		}
