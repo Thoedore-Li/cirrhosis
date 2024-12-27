@@ -240,6 +240,19 @@ var _default = {
         this.warningMessage = warningMsg + '\n建议：\n' + '1. 立即就医复诊\n' + '2. 严格限制盐分摄入（每日<5g）\n' + '3. 遵医嘱服用利尿剂\n' + '4. 每日监测体重和尿量\n' + '5. 必要时限制液体摄入';
       }
     }
+  },
+  // 分享给好友
+  onShareAppMessage: function onShareAppMessage() {
+    return {
+      title: '腹水患者健康指导-荣昌区人民医院',
+      path: '/pages/guide/guide'
+    };
+  },
+  // 分享到朋友圈
+  onShareTimeline: function onShareTimeline() {
+    return {
+      title: '腹水患者健康指导-荣昌区人民医院'
+    };
   }
 };
 exports.default = _default;

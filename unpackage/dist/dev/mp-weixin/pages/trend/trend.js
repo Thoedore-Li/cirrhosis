@@ -571,6 +571,19 @@ var _default = {
         categories: categories,
         series: series
       };
+    },
+    // 分享给好友
+    onShareAppMessage: function onShareAppMessage() {
+      return {
+        title: '腹水监测趋势图-荣昌区人民医院',
+        path: '/pages/trend/trend'
+      };
+    },
+    // 分享到朋友圈
+    onShareTimeline: function onShareTimeline() {
+      return {
+        title: '腹水监测趋势图-荣昌区人民医院'
+      };
     }
   }
 };

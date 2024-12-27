@@ -99,6 +99,21 @@ export default {
           '5. 必要时限制液体摄入'
       }
     }
+  },
+  
+  // 分享给好友
+  onShareAppMessage() {
+    return {
+      title: '腹水患者健康指导-荣昌区人民医院',
+      path: '/pages/guide/guide'
+    }
+  },
+  
+  // 分享到朋友圈
+  onShareTimeline() {
+    return {
+      title: '腹水患者健康指导-荣昌区人民医院'
+    }
   }
 }
 </script>

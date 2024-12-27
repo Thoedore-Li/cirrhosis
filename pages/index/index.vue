@@ -368,7 +368,7 @@
 						{ name: '螺内酯', used: false, dose: '' },
 						{ name: '呋塞米', used: false, dose: '' },
 						{ name: '托伐普坦', used: false, dose: '' }
-					]
+							]
 				}
 			},
 			
@@ -411,7 +411,7 @@
 				if (existingIndex !== -1) {
 					uni.showModal({
 						title: '提示',
-						content: '该日期已存在数据，是否覆盖？',
+						content: '该日期已存在数据是否覆盖？',
 						success: (res) => {
 							if (res.confirm) {
 								historyData[existingIndex] = newData
@@ -454,6 +454,23 @@
 				if (!this.historyData.diuretics[index].used) {
 					this.historyData.diuretics[index].dose = ''
 				}
+			}
+		},
+		
+		// 分享给好友
+		onShareAppMessage() {
+			return {
+				title: '腹水患者每日监测管理-荣昌区人民医院',
+				path: '/pages/index/index',
+				desc: '专业的腹水患者自我监测工具，帮助您更好地管理健康'
+			}
+		},
+		
+		// 分享到朋友圈
+		onShareTimeline() {
+			return {
+				title: '腹水患者每日监测管理-荣昌区人民医院',
+				query: 'from=timeline'
 			}
 		}
 	}

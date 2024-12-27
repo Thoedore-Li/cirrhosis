@@ -440,7 +440,7 @@ var _default = {
       if (existingIndex !== -1) {
         uni.showModal({
           title: '提示',
-          content: '该日期已存在数据，是否覆盖？',
+          content: '该日期已存在数据是否覆盖？',
           success: function success(res) {
             if (res.confirm) {
               historyData[existingIndex] = newData;
@@ -480,6 +480,21 @@ var _default = {
         this.historyData.diuretics[index].dose = '';
       }
     }
+  },
+  // 分享给好友
+  onShareAppMessage: function onShareAppMessage() {
+    return {
+      title: '腹水患者每日监测管理-荣昌区人民医院',
+      path: '/pages/index/index',
+      desc: '专业的腹水患者自我监测工具，帮助您更好地管理健康'
+    };
+  },
+  // 分享到朋友圈
+  onShareTimeline: function onShareTimeline() {
+    return {
+      title: '腹水患者每日监测管理-荣昌区人民医院',
+      query: 'from=timeline'
+    };
   }
 };
 exports.default = _default;
